@@ -86,6 +86,46 @@ function mustJumpInDirection(x, y, dirX, dirY, color) {
 }
 
 
+//STEP 2, check if the selected piece able to move or not in any direction, if not we cannot select this piece
+function canMove(x, y) {
+    if (isWhite(x, y)) {
+        return canMoveWhite(x, y);
+    } else if (isRed(x, y)) {
+        return canMoveRed(x, y);
+    }
+}
+
+function canMoveWhite(x, y) {
+    if (canMoveInDirection(x, y, 1, 1, 'R')) return true;
+    if (canMoveInDirection(x, y, -1, 1, 'R')) return true;
+    if (canMoveInDirection(x, y, 1, -1, 'R')) return true;
+    if (canMoveInDirection(x, y, -1, -1, 'R')) return true;
+    return false;
+}
+
+function canMoveRed(x, y) {
+    if (canMoveInDirection(x, y, 1, -1, 'W')) return true;
+    if (canMoveInDirection(x, y, -1, -1, 'W')) return true;
+    if (canMoveInDirection(x, y, 1, 1, 'W')) return true;
+    if (canMoveInDirection(x, y, -1, 1, 'W')) return true;
+    return false;
+}
+
+function canMoveInDirection(x, y, dirX, dirY, color) {
+    //if there is a piece, check if we can jump
+    if (hasPiece(x + dirX, y + dirY)) {
+        const piece = getPieceByXY(x + dirX, y + dirY);
+        if (piece.color === color && noPiece(x + 2 * dirX, y + 2 * dirY)) {
+            return true;
+        }
+        //check if we can do a normal move rather than jump, the mustJump is what we get in step 1
+    } else if (noPiece(x + dirX, y + dirY) && !mustJump) {
+        return true;
+    }
+    return false;
+}
+
+
 // Helpers
 function getPieceByXY(x, y) {
     const num = board[8 - y][x + 1];
