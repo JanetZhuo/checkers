@@ -169,6 +169,34 @@ function addMovesInDirection(moves, piece, dirX, dirY, color) {
 }
 
 
+//STEP4: If the move we going to do is in the array of possible moves, then we can do a move
+function movePiece(move) {
+    let piece = getPieceByXY(move.fromX, move.fromY);
+    piece.x = move.toX;
+    piece.y = move.toY;
+    //make change for board
+    let boardValue = getNum(move.fromX, move.fromY);
+    board[8 - move.fromY][move.fromX + 1] = 0;
+    board[8 - move.toY][move.toX + 1] = boardValue;
+
+    //jump and capture
+    if (move.killNum !== -1) {
+        let capturedPiece = getPieceByNum(move.killNum);
+        capturedPiece.isCaptured = true;
+        board[8 - capturedPiece.y][capturedPiece.x + 1] = 0;
+    }
+
+    //TODO: check if man becomes king
+}
+
+//turns for players
+function switchTurns() {
+    //TODO: need to consider double jump later, eg. if white must jump then whiter player will have two turns
+    isWhiteTurn = !isWhiteTurn;
+    mustJump = (isWhiteTurn) ? mustJumpWhite() : mustJumpRed();
+}
+
+
 // Helpers
 function getPieceByXY(x, y) {
     const num = board[8 - y][x + 1];
