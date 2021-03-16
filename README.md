@@ -8,6 +8,7 @@ The board is 8*8, and has 12 white pieces and 12 red pieces, has two players.
 
 ## &sect; $TODO
 - Store the position when a piece jumped, to see if there is DOUBLE JUMP
+- Check kinged of piece for backward moves, and change man to king when applicable
 - Set timer for each turn, calculate the steps and score
 - Check if there is a winner and game over
 
@@ -20,3 +21,7 @@ The board is 8*8, and has 12 white pieces and 12 red pieces, has two players.
  We get all possible moves for this piece, assume we know where we're going to move and check if the move is one of the possible moves
 - STEP 4: 
  If all good, we'll do a move and switch turns
+
+ ## &sect; Potential solution
+ - Use string to present positions of the pieces and movements
+ - Check https://en.wikipedia.org/wiki/Portable_Draughts_Notation for more info
