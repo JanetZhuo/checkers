@@ -52,6 +52,40 @@ let mustJump = false;
 // TODO: need to store the jumped piece location, and check if we can do double jump
 
 
+//STEP 1, for now just add all direction, later need to check if the piece is king for backwards direction
+function mustJumpWhite() {
+    const pieces = whitePieces.filter(o => o.isCaptured === false)
+    for (const piece of pieces) {
+        if (mustJumpInDirection(piece.x, piece.y, 1, 1, 'R')) return true;
+        if (mustJumpInDirection(piece.x, piece.y, -1, 1, 'R')) return true;
+        if (mustJumpInDirection(piece.x, piece.y, 1, -1, 'R')) return true;
+        if (mustJumpInDirection(piece.x, piece.y, -1, -1, 'R')) return true;
+    }
+    return false;
+}
+
+function mustJumpRed() {
+    const pieces = redPieces.filter(o => o.isCaptured === false)
+    for (const piece of pieces) {
+        if (mustJumpInDirection(piece.x, piece.y, 1, -1, 'W')) return true;
+        if (mustJumpInDirection(piece.x, piece.y, -1, -1, 'W')) return true;
+        if (mustJumpInDirection(piece.x, piece.y, 1, 1, 'W')) return true;
+        if (mustJumpInDirection(piece.x, piece.y, -1, 1, 'W')) return true;
+    }
+    return false;
+}
+
+function mustJumpInDirection(x, y, dirX, dirY, color) {
+    if (hasPiece(x + dirX, y + dirY)) { // if has piece
+        const piece = getPieceByXY(x + dirX, y + dirY);
+        if (piece.color === color && noPiece(x + 2 * dirX, y + 2 * dirY)) { // if can jump piece
+            return true;
+        }
+    }
+    return false;
+}
+
+
 // Helpers
 function getPieceByXY(x, y) {
     const num = board[8 - y][x + 1];
