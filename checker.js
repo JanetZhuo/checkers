@@ -126,6 +126,49 @@ function canMoveInDirection(x, y, dirX, dirY, color) {
 }
 
 
+//STEP 3, if the piece is able to move, we get all possible moves
+function getPossibleMoves(x, y) {
+    if (isWhite(x, y)) {
+        return getPossibleMovesWhite(x, y);
+    } else if (isRed(x, y)) {
+        return getPossibleMovesRed(x, y);
+    }
+}
+
+function getPossibleMovesWhite(x, y) {
+    let moves = [];
+    let piece = getPieceByXY(x, y);
+    addMovesInDirection(moves, piece, 1, 1, 'R');
+    addMovesInDirection(moves, piece, -1, 1, 'R');
+    addMovesInDirection(moves, piece, 1, -1, 'R');
+    addMovesInDirection(moves, piece, -1, -1, 'R');
+    return moves;
+}
+
+function getPossibleMovesRed(x, y) {
+    let moves = [];
+    let piece = getPieceByXY(x, y);
+    addMovesInDirection(moves, piece, 1, -1, 'W');
+    addMovesInDirection(moves, piece, -1, -1, 'W');
+    addMovesInDirection(moves, piece, 1, 1, 'W');
+    addMovesInDirection(moves, piece, -1, 1, 'W');
+    return moves;
+}
+
+function addMovesInDirection(moves, piece, dirX, dirY, color) {
+    const x = piece.x;
+    const y = piece.y;
+    if (hasPiece(x + dirX, y + dirY)) { // if has piece
+        const toJump = getPieceByXY(x + dirX, y + dirY);
+        if (toJump.color === color && noPiece(x + 2 * dirX, y + 2 * dirY)) { // if can jump piece
+            moves.push({ fromX: x, fromY: y, toX: x + 2 * dirX, toY: y + 2 * dirY, killNum: getNum(x + dirX, y + dirY) });
+        }
+    } else if (noPiece(x + dirX, y + dirY) && !mustJump) { // if is blank
+        moves.push({ fromX: x, fromY: y, toX: x + dirX, toY: y + dirY, killNum: -1 });
+    }
+}
+
+
 // Helpers
 function getPieceByXY(x, y) {
     const num = board[8 - y][x + 1];
