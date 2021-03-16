@@ -14,35 +14,34 @@ let board = [
 ];
 
 //white and red each has 12 pieces, xy indicates the location on board
-//if a piece is captured, remove it from the array.(we can also add isCaptured if we want to leave it in array)
 //TODO: add kinged to piece, eg. { x: 0, y: 2, color: 'W', king: false },
 let whitePieces = [
-    { x: 0, y: 2, color: 'W' },
-    { x: 2, y: 2, color: 'W' },
-    { x: 4, y: 2, color: 'W' },
-    { x: 6, y: 2, color: 'W' },
-    { x: 1, y: 1, color: 'W' },
-    { x: 3, y: 1, color: 'W' },
-    { x: 5, y: 1, color: 'W' },
-    { x: 7, y: 1, color: 'W' },
-    { x: 0, y: 0, color: 'W' },
-    { x: 2, y: 0, color: 'W' },
-    { x: 4, y: 0, color: 'W' },
-    { x: 6, y: 0, color: 'W' }
+    { x: 0, y: 2, color: 'W', isCaptured: false },
+    { x: 2, y: 2, color: 'W', isCaptured: false },
+    { x: 4, y: 2, color: 'W', isCaptured: false },
+    { x: 6, y: 2, color: 'W', isCaptured: false },
+    { x: 1, y: 1, color: 'W', isCaptured: false },
+    { x: 3, y: 1, color: 'W', isCaptured: false },
+    { x: 5, y: 1, color: 'W', isCaptured: false },
+    { x: 7, y: 1, color: 'W', isCaptured: false },
+    { x: 0, y: 0, color: 'W', isCaptured: false },
+    { x: 2, y: 0, color: 'W', isCaptured: false },
+    { x: 4, y: 0, color: 'W', isCaptured: false },
+    { x: 6, y: 0, color: 'W', isCaptured: false }
 ];
 let redPieces = [
-    { x: 1, y: 7, color: 'R' },
-    { x: 3, y: 7, color: 'R' },
-    { x: 5, y: 7, color: 'R' },
-    { x: 7, y: 7, color: 'R' },
-    { x: 0, y: 6, color: 'R' },
-    { x: 2, y: 6, color: 'R' },
-    { x: 4, y: 6, color: 'R' },
-    { x: 6, y: 6, color: 'R' },
-    { x: 1, y: 5, color: 'R' },
-    { x: 3, y: 5, color: 'R' },
-    { x: 5, y: 5, color: 'R' },
-    { x: 7, y: 5, color: 'R' }
+    { x: 1, y: 7, color: 'R', isCaptured: false },
+    { x: 3, y: 7, color: 'R', isCaptured: false },
+    { x: 5, y: 7, color: 'R', isCaptured: false },
+    { x: 7, y: 7, color: 'R', isCaptured: false },
+    { x: 0, y: 6, color: 'R', isCaptured: false },
+    { x: 2, y: 6, color: 'R', isCaptured: false },
+    { x: 4, y: 6, color: 'R', isCaptured: false },
+    { x: 6, y: 6, color: 'R', isCaptured: false },
+    { x: 1, y: 5, color: 'R', isCaptured: false },
+    { x: 3, y: 5, color: 'R', isCaptured: false },
+    { x: 5, y: 5, color: 'R', isCaptured: false },
+    { x: 7, y: 5, color: 'R', isCaptured: false }
 ];
 
 // players
@@ -51,3 +50,47 @@ let isWhiteTurn = true;
 // if a player must jump rather than normal move
 let mustJump = false;
 // TODO: need to store the jumped piece location, and check if we can do double jump
+
+
+// Helpers
+function getPieceByXY(x, y) {
+    const num = board[8 - y][x + 1];
+    if (num >= 1 && num <= 12) {
+        return whitePieces[num - 1];
+    } else if (num >= 13 && num <= 24) {
+        return redPieces[num - 13];
+    }
+}
+
+function getPieceByNum(num) {
+    if (num >= 1 && num <= 12) {
+        return whitePieces[num - 1];
+    } else if (num >= 13 && num <= 24) {
+        return redPieces[num - 13];
+    }
+}
+
+function hasPiece(x, y) {
+    const num = board[8 - y][x + 1];
+    return num >= 1 && num <= 24;
+}
+
+function noPiece(x, y) {
+    const num = board[8 - y][x + 1];
+    return num === 0;
+}
+
+function isWhite(x, y) {
+    const num = board[8 - y][x + 1];
+    return num >= 1 && num <= 12;
+}
+
+function isRed(x, y) {
+    const num = board[8 - y][x + 1];
+    return num >= 13 && num <= 24;
+}
+
+function getNum(x, y) {
+    return board[8 - y][x + 1];
+}
+
